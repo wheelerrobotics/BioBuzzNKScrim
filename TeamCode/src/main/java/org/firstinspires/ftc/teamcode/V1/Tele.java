@@ -18,6 +18,8 @@ public class Tele extends OpMode {
 
         //tele drive
         r.follower.manual(gamepad1.left_stick_y, gamepad1.left_stick_x, gamepad1.right_stick_x);
+        telemetry.addData("pose", r.follower.pose().toString());
+        r.shooter.telemetry(telemetry);
 
         //intake and shoot logic
         if (gamepad2.xWasPressed()) {

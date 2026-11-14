@@ -5,6 +5,9 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
+
 @Configurable
 public class Shooter {
     private final DcMotorEx shooter;
@@ -42,6 +45,12 @@ public class Shooter {
 
     public void out() {
         stopper.setPosition(outPos); //stopper out
+    }
+
+    public void telemetry(Telemetry t) {
+        t.addData("velocity", shooter.getVelocity());
+        t.addData("power", shooter.getPower());
+        t.addData("current", shooter.getCurrent(CurrentUnit.AMPS));
     }
 
 }

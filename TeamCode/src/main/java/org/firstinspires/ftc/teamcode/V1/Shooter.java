@@ -1,10 +1,11 @@
 package org.firstinspires.ftc.teamcode.V1;
 
+import com.bylazar.configurables.annotations.Configurable;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
-
+@Configurable
 public class Shooter {
     private final DcMotorEx shooter;
     private final Servo hood;

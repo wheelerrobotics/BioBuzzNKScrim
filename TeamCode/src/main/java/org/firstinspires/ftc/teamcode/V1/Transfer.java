@@ -1,10 +1,12 @@
 package org.firstinspires.ftc.teamcode.V1;
 
+import com.bylazar.configurables.annotations.Configurable;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
+@Configurable
 public class Transfer {
     private final DcMotor transferL;
     private final DcMotor transferR;

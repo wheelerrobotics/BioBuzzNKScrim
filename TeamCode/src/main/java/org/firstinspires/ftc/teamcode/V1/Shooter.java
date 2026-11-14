@@ -25,8 +25,6 @@ public class Shooter {
         shooter = hardwareMap.get(DcMotorEx.class, "shooter");
         hood = hardwareMap.get(Servo.class, "hood");
         stopper = hardwareMap.get(Servo.class, "stopper");
-        in();
-        close();
     }
 
     public void close() {
@@ -45,6 +43,10 @@ public class Shooter {
 
     public void out() {
         stopper.setPosition(outPos); //stopper out
+    }
+
+    public void off() {
+        shooter.setPower(0);
     }
 
     public void telemetry(Telemetry t) {

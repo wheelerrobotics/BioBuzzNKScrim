@@ -13,11 +13,18 @@ public class Tele extends OpMode {
     }
 
     @Override
+    public void start() {
+        r.shooter.far();
+        r.shooter.in();
+    }
+
+    @Override
     public void loop() {
         // FIXME: 11/14/26 FIX THE CONSTANTS.CREATE() RETURN ONCE MECANUM TUNER DONE
 
         //tele drive
-        r.follower.manual(gamepad1.left_stick_y, gamepad1.left_stick_x, gamepad1.right_stick_x);
+        r.follower.manual(-gamepad1.left_stick_y, gamepad1.left_stick_x, gamepad1.right_stick_x);
+        r.follower.update();
         telemetry.addData("pose", r.follower.pose().toString());
         r.shooter.telemetry(telemetry);
 
@@ -31,7 +38,7 @@ public class Tele extends OpMode {
         } else if (gamepad2.yWasPressed()) {
             r.shooter.out(); //outtake (yes stopper goes out)
             r.transfer.out();
-        } else {
+        } else if (!gamepad2.x && !gamepad2.a && !gamepad2.y){
             r.shooter.in(); //default; I don't care about loop times
             r.transfer.off();
         }
@@ -42,5 +49,11 @@ public class Tele extends OpMode {
             r.shooter.far();
         }
 
+    }
+
+    @Override
+    public void stop() {
+        r.shooter.off();
+        r.transfer.off();
     }
 }

@@ -28,6 +28,10 @@ public class Tele extends OpMode {
         telemetry.addData("pose", r.follower.pose().toString());
         r.shooter.telemetry(telemetry);
 
+        r.shooter.update(); //update the shooter P controller
+
+        r.shooter.update(); //update the shooter P controller
+
         //intake and shoot logic
         if (gamepad2.xWasPressed()) {
             r.transfer.on(); //shoot

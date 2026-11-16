@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
-
+import com.qualcomm.robotcore.util.ElapsedTime;
 @Configurable
 public class Shooter {
     private final DcMotorEx shooter;
@@ -23,6 +23,14 @@ public class Shooter {
     public static double inPos = 0.5; // TODO: 11/14/26
     public static double outPos = 0; // TODO: 11/14/26
     public static double kP = 0.005; //strength of motor compensation TODO: 11/14/26
+    public static double kI = 0;
+    public static double kD = 0;
+
+    private final ElapsedTime timer = new ElapsedTime();
+
+    private double integral = 0;
+    private double lastError = 0;
+    private boolean firstUpdate = true;
 
     //Variables
     public static double shooterTargetTPS; // current speed for P controller
@@ -59,6 +67,11 @@ public class Shooter {
     public void off() {
         shooterTargetTPS = 0;
         shooter.setPower(0);
+
+        integral = 0;
+        lastError = 0;
+        firstUpdate = true;
+        timer.reset();
     }
 
     public void telemetry(Telemetry t) {
@@ -71,10 +84,32 @@ public class Shooter {
         shooterTargetTPS = nSpeed;
     }
 
+//    public void update() {
+//        double error = shooterTargetTPS - shooter.getVelocity();
+//        double power = error * kP;
+//        power = Range.clip(power, 0, 1); //prevent shooter from trying to spin backward
+//        shooter.setPower(power);
+//    }
+
+
     public void update() {
+        double deltaTime = timer.seconds();
+        timer.reset();
+
         double error = shooterTargetTPS - shooter.getVelocity();
-        double power = error * kP;
-        power = Range.clip(power, 0, 1); //prevent shooter from trying to spin backward
+
+        integral += error * deltaTime;
+        double derivative = (error - lastError) / deltaTime;
+
+        // pid calculation
+        double power = kP * error
+                + kI * integral
+                + kD * derivative;
+
+        power = Range.clip(power, 0, 1);
+
+        lastError = error;
         shooter.setPower(power);
     }
+
 }

@@ -30,8 +30,6 @@ public class Tele extends OpMode {
 
         r.shooter.update(); //update the shooter P controller
 
-        r.shooter.update(); //update the shooter P controller
-
         //intake and shoot logic
         if (gamepad2.xWasPressed()) {
             r.transfer.on(); //shoot

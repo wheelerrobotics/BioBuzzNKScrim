@@ -17,14 +17,14 @@ public class Shooter {
     private final ElapsedTime timer;
 
     //Configurables
-    public static double closePosTPS = 1400; // TODO: 11/14/26
-    public static double closePosHood = 0.3; // TODO: 11/14/26
-    public static double farPosTPS = 1500; // TODO: 11/14/26
-    public static double farPosHood = 0.41; // TODO: 11/14/26
+    public static double closePosTPS = 1390;
+    public static double closePosHood = 0.37;
+    public static double farPosTPS = 1540;
+    public static double farPosHood = 0.5;
     public static double inPos = 0.8;
     public static double outPos = 0.5;
-    public static double kP = 0.02; //strength of motor compensation TODO: 11/14/26
-    public static double kI = 0.0002;
+    public static double kP = 0.04; //strength of motor compensation
+    public static double kI = 0.0000;
     public static double kD = 0;
 
 

@@ -14,6 +14,7 @@ public class Shooter {
     private final DcMotorEx shooter;
     private final Servo hood;
     private final Servo stopper;
+    private final ElapsedTime timer;
 
     //Configurables
     public static double closePosTPS = 1300; // TODO: 11/14/26
@@ -26,11 +27,10 @@ public class Shooter {
     public static double kI = 0;
     public static double kD = 0;
 
-    private final ElapsedTime timer = new ElapsedTime();
+
 
     private double integral = 0;
     private double lastError = 0;
-    private boolean firstUpdate = true;
 
     //Variables
     public static double shooterTargetTPS; // current speed for P controller
@@ -39,8 +39,12 @@ public class Shooter {
         shooter = hardwareMap.get(DcMotorEx.class, "shooter");
         hood = hardwareMap.get(Servo.class, "hood");
         stopper = hardwareMap.get(Servo.class, "stopper");
+        timer = new ElapsedTime();
 
         shooterTargetTPS = closePosTPS; //reset tps
+
+        integral = 0;
+        lastError = 0;
 
         in();
         close();
@@ -70,12 +74,13 @@ public class Shooter {
 
         integral = 0;
         lastError = 0;
-        firstUpdate = true;
         timer.reset();
     }
 
     public void telemetry(Telemetry t) {
         t.addData("velocity", shooter.getVelocity());
+        t.addData("setpoint", shooterTargetTPS);
+        t.addData("error", shooterTargetTPS - shooter.getVelocity());
         t.addData("power", shooter.getPower());
         t.addData("current", shooter.getCurrent(CurrentUnit.AMPS));
     }

@@ -17,7 +17,6 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 public class Constants {
-    // TODO: 11/14/26 MECANUM TUNER
     public static PinpointConfig localizerConfig = new PinpointConfig(c -> {
         c.name.set("pinpoint");
         c.podType.set(GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_4_BAR_POD);
@@ -70,6 +69,5 @@ public class Constants {
         return new Follower(new PinpointLocalizer(h,localizerConfig),
                 new Mecanum(h, drivetrainConfig),
                 new Foresight(foresightConfig));
-//        return null; // FIXME: 11/14/26
     }
 }

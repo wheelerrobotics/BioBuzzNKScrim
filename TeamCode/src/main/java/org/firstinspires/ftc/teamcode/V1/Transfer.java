@@ -19,12 +19,15 @@ public class Transfer {
         transferServo = hardwareMap.get(CRServo.class, "tservo");
         intake = hardwareMap.get(DcMotor.class, "intake");
 
-        transferServo.setDirection(DcMotorSimple.Direction.FORWARD); //servo direction TODO
 
+        transferServo.setDirection(DcMotorSimple.Direction.REVERSE); //servo direction TODO
+        intake.setDirection(DcMotorSimple.Direction.REVERSE);
+        transferR.setDirection(DcMotorSimple.Direction.REVERSE);
+        transferL.setDirection(DcMotorSimple.Direction.REVERSE);
         off(); //make sure ts is off at init
     }
 
-    public void on() { //go brr
+    public void run() { //go brr
         transferL.setPower(1);
         transferR.setPower(1);
         transferServo.setPower(1);
@@ -38,7 +41,7 @@ public class Transfer {
         intake.setPower(0);
     }
 
-    public void out() { //go brr but backwards
+    public void back() { //go brr but backwards
         transferL.setPower(-1);
         transferR.setPower(-1);
         transferServo.setPower(-1);

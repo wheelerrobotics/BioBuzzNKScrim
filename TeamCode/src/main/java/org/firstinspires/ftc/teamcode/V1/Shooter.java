@@ -84,13 +84,6 @@ public class Shooter {
         shooterTargetTPS = nSpeed;
     }
 
-//    public void update() {
-//        double error = shooterTargetTPS - shooter.getVelocity();
-//        double power = error * kP;
-//        power = Range.clip(power, 0, 1); //prevent shooter from trying to spin backward
-//        shooter.setPower(power);
-//    }
-
 
     public void update() {
         double deltaTime = timer.seconds();

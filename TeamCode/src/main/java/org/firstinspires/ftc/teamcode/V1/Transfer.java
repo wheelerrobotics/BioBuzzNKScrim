@@ -20,7 +20,7 @@ public class Transfer {
         intake = hardwareMap.get(DcMotor.class, "intake");
 
 
-        transferServo.setDirection(DcMotorSimple.Direction.REVERSE); //servo direction TODO
+        transferServo.setDirection(DcMotorSimple.Direction.REVERSE); //directions
         intake.setDirection(DcMotorSimple.Direction.REVERSE);
         transferR.setDirection(DcMotorSimple.Direction.REVERSE);
         transferL.setDirection(DcMotorSimple.Direction.REVERSE);

@@ -20,7 +20,6 @@ public class Tele extends OpMode {
 
     @Override
     public void loop() {
-        // FIXME: 11/14/26 FIX THE CONSTANTS.CREATE() RETURN ONCE MECANUM TUNER DONE
 
         //tele drive
         r.follower.manual(-gamepad1.left_stick_y, -gamepad1.left_stick_x, -gamepad1.right_stick_x);

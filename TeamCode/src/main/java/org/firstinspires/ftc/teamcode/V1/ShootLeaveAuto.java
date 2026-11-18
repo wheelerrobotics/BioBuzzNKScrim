@@ -1,15 +1,17 @@
 package org.firstinspires.ftc.teamcode.V1;
 
+import com.bylazar.configurables.annotations.Configurable;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 @Autonomous
+@Configurable
 public class ShootLeaveAuto extends OpMode {
 
     private Robot r;
     private ElapsedTime shootTimer;
-    public static int shootTime = 5;
+    public static int shootTime = 3000;
     private ElapsedTime actionTimer;
     public static int moveTime = 300;
     public static int waitTime = 2000;
@@ -22,6 +24,7 @@ public class ShootLeaveAuto extends OpMode {
 
     }
 
+    @Override
     public void start() {
         r.shooter.far();
         r.shooter.in();
@@ -33,7 +36,7 @@ public class ShootLeaveAuto extends OpMode {
 
 
         shootTimer.reset();
-        while (shootTimer.seconds() < shootTime) {
+        while (shootTimer.milliseconds() < shootTime) {
             r.shooter.out();
             r.transfer.run();
             r.shooter.update();
@@ -43,12 +46,16 @@ public class ShootLeaveAuto extends OpMode {
         r.shooter.in();
 
         actionTimer.reset();
-        while(actionTimer.seconds() < moveTime) {
-            r.follower.manual(1, 0, 0);
+        while(actionTimer.milliseconds() < moveTime) {
+            r.follower.manual(.4, 0, 0);
+            r.follower.update();
         }
         r.follower.manual(0,0,0);
+        r.follower.update();
+        stop();
     }
 
+    @Override
     public void loop() {
 
     }

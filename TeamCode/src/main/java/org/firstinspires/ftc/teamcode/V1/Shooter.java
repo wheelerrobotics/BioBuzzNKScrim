@@ -18,14 +18,15 @@ public class Shooter {
 
     //Configurables
     public static double closePosTPS = 1390;
-    public static double closePosHood = 0.37;
-    public static double farPosTPS = 1540;
-    public static double farPosHood = 0.5;
+    public static double closePosHood = 0.08; //0.37
+    public static double farPosTPS = 1510;
+    public static double farPosHood = 0.21; //0.5
     public static double inPos = 0.8;
     public static double outPos = 0.5;
     public static double kP = 0.04; //strength of motor compensation
     public static double kI = 0.0000;
     public static double kD = 0;
+    public static double autoTPS = 1470;
 
 
 
@@ -57,6 +58,11 @@ public class Shooter {
 
     public void far() {
         setSpeed(farPosTPS); //set for far shoot pos
+        hood.setPosition(farPosHood);
+    }
+
+    public void auto() {
+        setSpeed(autoTPS);
         hood.setPosition(farPosHood);
     }
 

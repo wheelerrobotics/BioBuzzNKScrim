@@ -13,40 +13,44 @@ public class ShootLeaveAuto extends OpMode {
     private ElapsedTime shootTimer;
     public static int shootTime = 3000;
     private ElapsedTime actionTimer;
-    public static int moveTime = 300;
-    public static int waitTime = 2000;
+    public static int leaveMoveTime = 300;
+    public static int leaveWaitTime = 2000;
 
     @Override
     public void init() {
         r = new Robot(this);
         shootTimer = new ElapsedTime();
         actionTimer = new ElapsedTime();
+        r.shooter.in();
+        r.transfer.flowerIn();
 
     }
 
     @Override
     public void start() {
-        r.shooter.far();
+        r.shooter.auto();
         r.shooter.in();
 
         r.shooter.update();
 
         actionTimer.reset();
-        while (actionTimer.milliseconds()<waitTime);
+        while (actionTimer.milliseconds()<leaveWaitTime) {
+            r.shooter.update();
+        }
 
-
+        r.shooter.update();
         shootTimer.reset();
         while (shootTimer.milliseconds() < shootTime) {
+            r.shooter.update();
             r.shooter.out();
             r.transfer.run();
-            r.shooter.update();
         }
 
         r.transfer.off();
         r.shooter.in();
 
         actionTimer.reset();
-        while(actionTimer.milliseconds() < moveTime) {
+        while(actionTimer.milliseconds() < leaveMoveTime) {
             r.follower.manual(.4, 0, 0);
             r.follower.update();
         }
@@ -57,6 +61,6 @@ public class ShootLeaveAuto extends OpMode {
 
     @Override
     public void loop() {
-
+        r.shooter.update();
     }
 }

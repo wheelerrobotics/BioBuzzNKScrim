@@ -10,6 +10,8 @@ public class Tele extends OpMode {
     @Override
     public void init() {
         r = new Robot(this); //init robot
+        r.shooter.in();
+        r.transfer.flowerIn();
     }
 
     @Override
@@ -39,7 +41,9 @@ public class Tele extends OpMode {
         } else if (gamepad2.yWasPressed()) {
             r.shooter.out(); //outtake (yes stopper goes out)
             r.transfer.back();
-        } else if (!gamepad2.x && !gamepad2.a && !gamepad2.y){
+        } else if (gamepad2.bWasPressed()) {
+            r.transfer.intakeBack(); //intake out
+        } else if (!gamepad2.x && !gamepad2.a && !gamepad2.y && !gamepad2.b){
             r.shooter.in(); //default; I don't care about loop times
             r.transfer.off();
         }
@@ -48,6 +52,13 @@ public class Tele extends OpMode {
             r.shooter.close();
         } else if(gamepad2.dpadDownWasPressed()) {
             r.shooter.far();
+        }
+
+        //flower
+        if (gamepad2.right_bumper) {
+            r.transfer.flowerOut();
+        } else if (gamepad2.left_bumper) {
+            r.transfer.flowerIn();
         }
 
     }

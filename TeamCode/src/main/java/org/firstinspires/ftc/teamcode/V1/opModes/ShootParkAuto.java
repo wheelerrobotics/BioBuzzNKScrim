@@ -1,20 +1,23 @@
-package org.firstinspires.ftc.teamcode.V1;
+package org.firstinspires.ftc.teamcode.V1.opModes;
+
+import static org.firstinspires.ftc.teamcode.V1.opModes.ShootLeaveAuto.shootTime;
 
 import com.bylazar.configurables.annotations.Configurable;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.teamcode.V1.Robot;
+
 @Autonomous
 @Configurable
-public class ShootLeaveAuto2 extends OpMode {
+public class ShootParkAuto extends OpMode {
 
     private Robot r;
     private ElapsedTime shootTimer;
-    public int shootTime = 1000;
     private ElapsedTime actionTimer;
-    public static int leaveMoveTime = 300;
-    public static int leaveWaitTime = 2000;
+    public static int parkMoveTime = 2500;
+    public static int parkWaitTime = 16000;
 
     @Override
     public void init() {
@@ -34,7 +37,7 @@ public class ShootLeaveAuto2 extends OpMode {
         r.shooter.update();
 
         actionTimer.reset();
-        while (actionTimer.milliseconds()<leaveWaitTime) {
+        while (actionTimer.milliseconds()<parkWaitTime) {
             r.shooter.update();
         }
 
@@ -45,26 +48,13 @@ public class ShootLeaveAuto2 extends OpMode {
             r.shooter.out();
             r.transfer.run();
         }
-        r.shooter.update();
-        shootTimer.reset();
-        while (shootTimer.milliseconds() < shootTime) {
-            r.shooter.update();
-            r.transfer.off();
-        }
-        r.shooter.update();
-        shootTimer.reset();
-        while (shootTimer.milliseconds() < shootTime) {
-            r.shooter.update();
-            r.transfer.run();
-        }
-
 
         r.transfer.off();
         r.shooter.in();
 
         actionTimer.reset();
-        while(actionTimer.milliseconds() < leaveMoveTime) {
-            r.follower.manual(.4, 0, 0);
+        while(actionTimer.milliseconds() < parkMoveTime) {
+            r.follower.manual(0.32, -0.5, 0);
             r.follower.update();
         }
         r.follower.manual(0,0,0);

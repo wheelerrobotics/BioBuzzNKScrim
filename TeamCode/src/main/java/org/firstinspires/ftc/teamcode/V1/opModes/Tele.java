@@ -1,7 +1,9 @@
-package org.firstinspires.ftc.teamcode.V1;
+package org.firstinspires.ftc.teamcode.V1.opModes;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+
+import org.firstinspires.ftc.teamcode.V1.Robot;
 
 @TeleOp
 public class Tele extends OpMode {

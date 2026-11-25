@@ -66,7 +66,7 @@ public class Constants {
     );
 
     public static Follower create(HardwareMap h) {
-        return new Follower(new PinpointLocalizer(h,localizerConfig),
+        return new Follower(new PinpointLocalizer(h, localizerConfig),
                 new Mecanum(h, drivetrainConfig),
                 new Foresight(foresightConfig));
     }

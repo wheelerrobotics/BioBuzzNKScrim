@@ -1,21 +1,22 @@
-package org.firstinspires.ftc.teamcode.V1;
-
-import static org.firstinspires.ftc.teamcode.V1.ShootLeaveAuto.shootTime;
+package org.firstinspires.ftc.teamcode.V1.opModes;
 
 import com.bylazar.configurables.annotations.Configurable;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.teamcode.V1.Robot;
+
 @Autonomous
 @Configurable
-public class ShootParkAuto extends OpMode {
+public class ShootLeaveAuto extends OpMode {
 
     private Robot r;
     private ElapsedTime shootTimer;
+    public static int shootTime = 3000;
     private ElapsedTime actionTimer;
-    public static int parkMoveTime = 2500;
-    public static int parkWaitTime = 16000;
+    public static int leaveMoveTime = 300;
+    public static int leaveWaitTime = 2000;
 
     @Override
     public void init() {
@@ -35,7 +36,7 @@ public class ShootParkAuto extends OpMode {
         r.shooter.update();
 
         actionTimer.reset();
-        while (actionTimer.milliseconds()<parkWaitTime) {
+        while (actionTimer.milliseconds()<leaveWaitTime) {
             r.shooter.update();
         }
 
@@ -51,8 +52,8 @@ public class ShootParkAuto extends OpMode {
         r.shooter.in();
 
         actionTimer.reset();
-        while(actionTimer.milliseconds() < parkMoveTime) {
-            r.follower.manual(0.32, -0.5, 0);
+        while(actionTimer.milliseconds() < leaveMoveTime) {
+            r.follower.manual(.4, 0, 0);
             r.follower.update();
         }
         r.follower.manual(0,0,0);

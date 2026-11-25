@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.V1;
+package org.firstinspires.ftc.teamcode.V1.pid;
 
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -53,6 +53,10 @@ public class PID {
     public void updateFilter(DoubleUnaryOperator nFilter, int index) {
         filters[index] = nFilter;
     }
+
+    public void off() {
+        forHardware(dcMotorSimple -> dcMotorSimple.setPower(lastPower));
+    }
     
     public void update(double target, double current) {
         double deltaTime = timer.seconds();
@@ -72,11 +76,13 @@ public class PID {
 
         power = applyFilters(power);
 
+        if (power == lastPower) return;
+
         double lastPower = power;
         forHardware(dcMotorSimple -> dcMotorSimple.setPower(lastPower));
     }
 
-    public void update(double target, ToDoubleFunction<DcMotorEx> producer) throws Throwable {
+    public void update(double target, ToDoubleFunction<DcMotorEx> producer) throws IllegalArgumentException {
         double current = 0;
         for (int i = 0; i < hardware.length;) {
             try {
@@ -89,6 +95,10 @@ public class PID {
         }
         current /= hardware.length;
         update(target, current);
+    }
+
+    public static PIDBuilder pid() {
+        return new PIDBuilder();
     }
 
     public void setkP(double kP) {
@@ -114,7 +124,7 @@ public class PID {
         return lastPower;
     }
 
-    private static final class Filters {
+    public static final class Filters {
 
         /**
          * Clips the power in between 0 and 1, useful in a complex series of filters

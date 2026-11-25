@@ -1,20 +1,23 @@
 package org.firstinspires.ftc.teamcode.V1;
 
+import static org.firstinspires.ftc.teamcode.V1.pid.PID.Filters.clip;
+import static org.firstinspires.ftc.teamcode.V1.pid.PID.pid;
+
 import com.bylazar.configurables.annotations.Configurable;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
-import com.qualcomm.robotcore.util.ElapsedTime;
+import org.firstinspires.ftc.teamcode.V1.pid.PID;
+
 @Configurable
 public class Shooter {
     private final DcMotorEx shooter;
     private final Servo hood;
     private final Servo stopper;
-    private final ElapsedTime timer;
+    private final PID pid;
 
     //Configurables
     public static double closePosTPS = 1390;
@@ -28,11 +31,6 @@ public class Shooter {
     public static double kD = 0;
     public static double autoTPS = 1470;
 
-
-
-    private double integral = 0;
-    private double lastError = 0;
-
     //Variables
     public static double shooterTargetTPS; // current speed for P controller
 
@@ -40,15 +38,12 @@ public class Shooter {
         shooter = hardwareMap.get(DcMotorEx.class, "shooter");
         hood = hardwareMap.get(Servo.class, "hood");
         stopper = hardwareMap.get(Servo.class, "stopper");
-        timer = new ElapsedTime();
 
         shooterTargetTPS = closePosTPS; //reset tps
 
-        integral = 0;
-        lastError = 0;
-
         in();
         close();
+        pid = pid().kP(kP).addFilters(clip()).setHardware(shooter).build();
     }
 
     public void close() {
@@ -77,10 +72,6 @@ public class Shooter {
     public void off() {
         shooterTargetTPS = 0;
         shooter.setPower(0);
-
-        integral = 0;
-        lastError = 0;
-        timer.reset();
     }
 
     public void telemetry(Telemetry t) {
@@ -95,25 +86,9 @@ public class Shooter {
         shooterTargetTPS = nSpeed;
     }
 
-
     public void update() {
-        double deltaTime = timer.seconds();
-        timer.reset();
-
-        double error = shooterTargetTPS - shooter.getVelocity();
-
-        integral += error * deltaTime;
-        double derivative = (error - lastError) / deltaTime;
-
-        // pid calculation
-        double power = kP * error
-                + kI * integral
-                + kD * derivative;
-
-        power = Range.clip(power, 0, 1);
-
-        lastError = error;
-        shooter.setPower(power);
+        pid.update(shooterTargetTPS, DcMotorEx::getVelocity);
     }
+
 
 }

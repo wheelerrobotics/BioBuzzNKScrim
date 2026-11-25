@@ -33,10 +33,13 @@ public class Tele extends OpMode {
 
         r.shooter.update(); //update the shooter PID controller
 
+        if (gamepad2.x) {
+            r.transfer.shoot(); //shoot
+        }
+
         //intake and shoot logic
         if (gamepad2.xWasPressed()) {
-            r.transfer.run(); //shoot
-            r.shooter.out();
+            r.shooter.out();//shoot
         } else if (gamepad2.aWasPressed()) { //else if creates priority stack
             r.shooter.in(); //intake
             r.transfer.run();

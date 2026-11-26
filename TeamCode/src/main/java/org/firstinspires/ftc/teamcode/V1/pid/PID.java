@@ -159,7 +159,7 @@ public class PID {
          @param lastPower pass getLastPower()
          @return A filter which can be applied
          **/
-        public DoubleUnaryOperator lowPassPowerChange(double min, double lastPower) {
+        public static DoubleUnaryOperator lowPassChange(double min, double lastPower) {
             return v -> Math.abs(lastPower - v) < min ? lastPower : v;
         }
     }
